@@ -78,7 +78,12 @@ func response(conn net.Conn) {
 					<title>Http Server</title>
 				</head>
 				<body>
-					<h2>It's just a starting page!'</h2>
+					<base href="http://localhost:8000/" />
+					<h2>It's a home page!</h2>
+					<ul>
+						<li><a href="index">Index page</a></li>
+						<li><a href="apply">Apply page</a></li>
+					</ul>
 				</body>
 			</html>`
 
