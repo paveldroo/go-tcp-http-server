@@ -38,18 +38,11 @@ func handle(conn net.Conn) {
 			panic(err)
 		}
 	}()
-	u := request(conn)
-	switch u {
-	case "/":
-		response(conn)
-	case "/apply":
-		responseApply(conn)
-	default:
-		response(conn)
-	}
+	request(conn)
+
 }
 
-func request(conn net.Conn) string {
+func request(conn net.Conn) {
 	i := 0
 	s := bufio.NewScanner(conn)
 	var u string
@@ -59,6 +52,7 @@ func request(conn net.Conn) string {
 		if i == 0 {
 			u = strings.Fields(ln)[1]
 			fmt.Println("***URI", u)
+			mux(conn, u)
 		}
 		if ln == "" {
 			fmt.Println("Headers are done!")
@@ -66,8 +60,17 @@ func request(conn net.Conn) string {
 		}
 		i++
 	}
+}
 
-	return u
+func mux(conn net.Conn, u string) {
+	switch u {
+	case "/":
+		response(conn)
+	case "/apply":
+		responseApply(conn)
+	default:
+		response(conn)
+	}
 }
 
 func response(conn net.Conn) {
